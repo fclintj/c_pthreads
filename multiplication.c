@@ -20,6 +20,7 @@ struct thread_info {
     struct mat *mat_result;
 };
 
+
 void make_mat(int rows, int cols, struct mat* arr);
 void* multiply_with_threads(void* arg);
 void multiply(struct mat* arr, struct mat* arr2, struct mat* result );
@@ -40,7 +41,6 @@ int main() {
     fill_mat(&arr2); 
 
     int rows_per_thread = ceil(double(row) / num_threads);
-    printf("%d",rows_per_thread);
 
     // store information for threads object
     for (int i = 0; i < num_threads; i++) {
@@ -53,23 +53,14 @@ int main() {
     }
     mat_info[num_threads-1].stop=row;
 
-    /* print_mat(&arr); */
     for (int i=0; i<num_threads; i++) {
         pthread_create(&thread[i], NULL, multiply_with_threads, &mat_info[i]);
     }
 
     /* Wait for Threads to Finish */
-    int flags[num_threads];
-    while(sum_array(flags,num_threads)!=3){
-        for (int i = 0; i < num_threads; i++) {
-            if(mat_info[i].is_running == 0 && flags[i] != 1){ 
-                printf("done\n");
-                flags[i]=1;
-            }
-        }
-
+    for (int i=0; i < num_threads; i++) {
+        pthread_join(thread[i], NULL);
     }
-
     /* multiply(&arr,&arr2,&arr_result); */    
     
     free(arr.mat);
