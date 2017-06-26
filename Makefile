@@ -1,2 +1,2 @@
 all: 
-	g++ -std=c++11 -g multiplication.c -o multiplication
+	g++ -std=c++11 -g multiplication.c -pthread  -o multiplication
