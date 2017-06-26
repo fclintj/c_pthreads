@@ -57,7 +57,7 @@ int main() {
         pthread_create(&thread[i], NULL, multiply_with_threads, &mat_info[i]);
     }
 
-    /* Wait for Threads to Finish */
+    /* Wait for threads to finish */
     for (int i=0; i < num_threads; i++) {
         pthread_join(thread[i], NULL);
     }
