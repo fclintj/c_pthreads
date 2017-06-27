@@ -26,10 +26,11 @@ void* multiply_with_threads(void* arg);
 void multiply(struct mat* arr, struct mat* arr2, struct mat* result );
 void fill_mat(struct mat* arr);
 int sum_array(int* arr, int size);
+void print_mat(struct mat* arr);
 
 int main() {
-    int col=1000;
-    int row=1000;
+    int col= 3;
+    int row= 3;
     int num_threads = NUMTHREADS;
     struct thread_info mat_info[num_threads];
     pthread_t thread[num_threads];
@@ -39,6 +40,12 @@ int main() {
     make_mat(row,col,&arr_result);
     fill_mat(&arr); 
     fill_mat(&arr2); 
+
+    printf("Matrix A =\n");
+    print_mat(&arr);
+
+    printf("\nMatrix B =\n");
+    print_mat(&arr);
 
     int rows_per_thread = ceil(double(row) / num_threads);
 
@@ -62,7 +69,10 @@ int main() {
         pthread_join(thread[i], NULL);
     }
     /* multiply(&arr,&arr2,&arr_result); */    
-    
+
+    printf("\nA × B =\n");
+    print_mat(&arr_result);
+
     free(arr.mat);
     free(arr2.mat);
     free(arr_result.mat);
